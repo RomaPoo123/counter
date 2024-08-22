@@ -5,18 +5,20 @@ import { Line } from "../line/Line";
 
 type ClikerType = {
     Clik: number
-    addClik: () => void
-    resetClik: () => void
     maxCliks: number
     lineWidth: number
+    setEditMode: () => void
+    addClik: () => void
+    resetClik: () => void
+
 }
 
-export const Cliker = ({ addClik, Clik, resetClik, maxCliks, lineWidth }: ClikerType) => {
+export const Cliker = ({ Clik, maxCliks, lineWidth, resetClik, addClik, setEditMode }: ClikerType) => {
 
     // disable кнопки reset
     const disableResetClik = Clik === 0;
     // disable кнопки inc
-    const disableAddClik = Clik === maxCliks;
+    const disableAddClik = Clik >= maxCliks;
 
 
     return (
@@ -28,6 +30,7 @@ export const Cliker = ({ addClik, Clik, resetClik, maxCliks, lineWidth }: Cliker
                 <div className="btnpanel">
                     <Button onClick={addClik} title={"inc"} disabled={disableAddClik} />
                     <Button onClick={resetClik} title={"reset"} disabled={disableResetClik} />
+                    <Button onClick={setEditMode} title={"Set"} />
                 </div>
                 <div className="soundbar">
                     <Line lineWidth={lineWidth}></Line>

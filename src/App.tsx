@@ -15,7 +15,11 @@ function App() {
   // обновление max-cliks
   const [maxCliks, setMaxCliks] = useState<number>(1);
   // Стейт для отслеживания левой части
-  const [values, setValues] = useState<ValuesType>({ maxValue: 0, startValue: 0 })
+  const [values, setValues] = useState<ValuesType>({ maxValue: 1, startValue: 0 })
+
+  //  Стейт для переключения панелей
+  const [editMode, setEditMode] = useState<boolean>(true)
+
   // ширина Line
   const lineWidth = Math.round(((clik / maxCliks) * 100));
 
@@ -42,24 +46,43 @@ function App() {
   const onClickHandler = () => {
     setMaxCliks(values.maxValue)
     setClik(values.startValue)
+    setEditMode(!editMode)
   }
-
+  const setEditModeHandler = () => {
+    setEditMode(!editMode)
+  }
 
   //  IU
   return (
     <div className="App">
-      <Cliker
+      {editMode ? <Cliker
         addClik={addClik}
         resetClik={resetClik}
         Clik={clik}
         maxCliks={maxCliks}
         lineWidth={lineWidth}
+        setEditMode={setEditModeHandler}
+      /> : <CustomizationCliker
+        addMaxValue={maxValueHandler}
+        addStartValue={startValueHandler}
+        onClick={onClickHandler}
+        start={values.startValue}
+        max={values.maxValue}
+      />}
+      {/*   <Cliker
+        addClik={addClik}
+        resetClik={resetClik}
+        Clik={clik}
+        maxCliks={maxCliks}
+        lineWidth={lineWidth}
+        setEditMode={setEditModeHandler}
       />
       <CustomizationCliker
         addMaxValue={maxValueHandler}
         addStartValue={startValueHandler}
         onClick={onClickHandler}
-      />
+        setEditMode={setEditModeHandler}
+      /> */}
     </div>
   );
 }

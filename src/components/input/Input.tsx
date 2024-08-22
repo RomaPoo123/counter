@@ -1,14 +1,18 @@
 import React, { useState, ChangeEvent } from "react";
 import "./Input.css"
+import { error } from "console";
 
 type InputType = {
+    value: number
     title: string
+    error?: boolean
     onChange: (value: number) => void
+
 }
 
 export const Input = (props: InputType) => {
     // локальный стейт компоненты Input
-    const [newValue, setValue] = useState<string>("0")
+    const [newValue, setValue] = useState<string>(props.value.toString())
 
     // Отслеживание вводимого значения в input и передача его выше
     const ChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +25,7 @@ export const Input = (props: InputType) => {
     return (
         <div className="inputValue">
             <label>{props.title}</label >
-            <input type="number" value={newValue} onChange={ChangeHandler} />
+            <input type="number" value={newValue} onChange={ChangeHandler} style={{ backgroundColor: `${props.error ? 'red' : 'rgb(248, 248, 248)'}` }} />
         </div>
     )
 }
