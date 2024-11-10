@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import { Cliker } from './components/cliker/Cliker';
-import { CustomizationCliker } from './components/customizationCliker/CustomizationCliker';
+import { Cliker } from './features/cliker/UI/cliker/Cliker';
+import { CustomizationCliker } from './features/customizationCliker/CustomizationCliker';
+
+
 
 type ValuesType = {
   maxValue: number
@@ -17,13 +19,22 @@ function App() {
   // Стейт для отслеживания левой части
   const [values, setValues] = useState<ValuesType>({ maxValue: 1, startValue: 0 })
 
+  /* useEffect(() => {
+    let localValues: ValuesType
+    let local = localStorage.getItem("проверка");
+    local ? localValues = JSON.parse(local) : localValues = { maxValue: 1, startValue: 0 }
+    setClik(localValues.startValue)
+    setMaxCliks(localValues.maxValue)
+    setValues(localValues)
+  }, []) */
+
   //  Стейт для переключения панелей
   const [editMode, setEditMode] = useState<boolean>(true)
 
   // ширина Line
   const lineWidth = Math.round(((clik / maxCliks) * 100));
 
-  // Collback  для обновления счетчика
+  // Callback  для обновления счетчика
   const addClik = () => {
     if (clik < maxCliks) {
       setClik(clik + 1)
@@ -43,10 +54,11 @@ function App() {
   }
 
   //  callback для кнопки SET
-  const onClickHandler = () => {
+  const onClickCustomizationHandler = () => {
     setMaxCliks(values.maxValue)
     setClik(values.startValue)
     setEditMode(!editMode)
+    // localStorage.setItem("проверка", JSON.stringify(values))
   }
   const setEditModeHandler = () => {
     setEditMode(!editMode)
@@ -65,24 +77,10 @@ function App() {
       /> : <CustomizationCliker
         addMaxValue={maxValueHandler}
         addStartValue={startValueHandler}
-        onClick={onClickHandler}
+        onClick={onClickCustomizationHandler}
         start={values.startValue}
         max={values.maxValue}
       />}
-      {/*   <Cliker
-        addClik={addClik}
-        resetClik={resetClik}
-        Clik={clik}
-        maxCliks={maxCliks}
-        lineWidth={lineWidth}
-        setEditMode={setEditModeHandler}
-      />
-      <CustomizationCliker
-        addMaxValue={maxValueHandler}
-        addStartValue={startValueHandler}
-        onClick={onClickHandler}
-        setEditMode={setEditModeHandler}
-      /> */}
     </div>
   );
 }

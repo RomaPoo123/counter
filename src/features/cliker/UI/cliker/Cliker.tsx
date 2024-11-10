@@ -1,7 +1,9 @@
 import React from "react";
 import "./Cliker.css"
-import { Button } from "../button/Button";
+import { Button } from "../../../../common/components/button/Button";
 import { Line } from "../line/Line";
+
+
 
 type ClikerType = {
     Clik: number
@@ -28,8 +30,8 @@ export const Cliker = ({ Clik, maxCliks, lineWidth, resetClik, addClik, setEditM
             </div>
             <div className="panel">
                 <div className="btnpanel">
-                    <Button onClick={addClik} title={"inc"} disabled={disableAddClik} />
-                    <Button onClick={resetClik} title={"reset"} disabled={disableResetClik} />
+                    <Button onClick={addClik} title={"Inc"} disabled={disableAddClik} />
+                    <Button onClick={resetClik} title={"Res"} disabled={disableResetClik} />
                     <Button onClick={setEditMode} title={"Set"} />
                 </div>
                 <div className="soundbar">

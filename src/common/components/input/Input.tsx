@@ -13,14 +13,11 @@ type InputType = {
 export const Input = (props: InputType) => {
     // локальный стейт компоненты Input
     const [newValue, setValue] = useState<string>(props.value.toString())
-
     // Отслеживание вводимого значения в input и передача его выше
     const ChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
         props.onChange(+e.currentTarget.value)
     }
-
-
     // UI
     return (
         <div className="inputValue">
