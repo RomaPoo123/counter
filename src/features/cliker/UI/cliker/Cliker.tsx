@@ -15,8 +15,9 @@ type ClikerType = {
 
 }
 
-export const Cliker = ({ Clik, maxCliks, lineWidth, resetClik, addClik, setEditMode }: ClikerType) => {
+export const Cliker = React.memo(({ Clik, maxCliks, lineWidth, resetClik, addClik, setEditMode }: ClikerType) => {
 
+    console.log("rerender Cliker")
     // disable кнопки reset
     const disableResetClik = Clik === 0;
     // disable кнопки inc
@@ -40,6 +41,6 @@ export const Cliker = ({ Clik, maxCliks, lineWidth, resetClik, addClik, setEditM
             </div>
         </div >
     )
-}
+})
 
 

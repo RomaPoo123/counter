@@ -13,8 +13,8 @@ export type initialStateType = {
 
 const initialState: initialStateType = {
     click: 0,
-    maxValue: 0,
-    startValue: 1,
+    maxValue: 1,
+    startValue: 0,
 }
 export type ActionType = IncrementActionType | ResetActionType | InstallationActionType
 

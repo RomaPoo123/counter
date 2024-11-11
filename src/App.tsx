@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import { Cliker } from './features/cliker/UI/cliker/Cliker';
 import { CustomizationCliker } from './features/customizationCliker/CustomizationCliker';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './app/store';
+import { IncrementAC, initialStateType, InstallationAC, ResetAC } from './features/cliker/model/cliker-reducer';
 
 
 
@@ -11,13 +14,11 @@ type ValuesType = {
 }
 
 
-function App() {
-  // Обновление значения
-  const [clik, setClik] = useState<number>(0)
-  // обновление max-cliks
-  const [maxCliks, setMaxCliks] = useState<number>(1);
-  // Стейт для отслеживания левой части
-  const [values, setValues] = useState<ValuesType>({ maxValue: 1, startValue: 0 })
+const App = React.memo(() => {
+  debugger;
+  console.log("rerender App")
+  const cliker = useSelector<RootState, initialStateType>(state => state.click)
+  const dispatch = useDispatch()
 
   /* useEffect(() => {
     let localValues: ValuesType
@@ -32,31 +33,22 @@ function App() {
   const [editMode, setEditMode] = useState<boolean>(true)
 
   // ширина Line
-  const lineWidth = Math.round(((clik / maxCliks) * 100));
+  const lineWidth = Math.round(((cliker.click / cliker.maxValue) * 100));
 
   // Callback  для обновления счетчика
   const addClik = () => {
-    if (clik < maxCliks) {
-      setClik(clik + 1)
+    if (cliker.click < cliker.maxValue) {
+      dispatch(IncrementAC())
     }
   }
 
   // Обновление счетчика и max-cliks
   const resetClik = () => {
-    setClik(values.startValue)
-  }
-  // Callback для получения данных с Input (Для отслеживания изменений в input)
-  const startValueHandler = (startValue: number) => {
-    setValues({ ...values, startValue })
-  }
-  const maxValueHandler = (maxValue: number) => {
-    setValues({ ...values, maxValue })
+    dispatch(ResetAC())
   }
 
   //  callback для кнопки SET
   const onClickCustomizationHandler = () => {
-    setMaxCliks(values.maxValue)
-    setClik(values.startValue)
     setEditMode(!editMode)
     // localStorage.setItem("проверка", JSON.stringify(values))
   }
@@ -70,19 +62,18 @@ function App() {
       {editMode ? <Cliker
         addClik={addClik}
         resetClik={resetClik}
-        Clik={clik}
-        maxCliks={maxCliks}
+        Clik={cliker.click}
+        maxCliks={cliker.maxValue}
         lineWidth={lineWidth}
         setEditMode={setEditModeHandler}
       /> : <CustomizationCliker
-        addMaxValue={maxValueHandler}
-        addStartValue={startValueHandler}
+        settingValues={(max, start) => { dispatch(InstallationAC(max, start)) }}
         onClick={onClickCustomizationHandler}
-        start={values.startValue}
-        max={values.maxValue}
+        start={cliker.startValue}
+        max={cliker.maxValue}
       />}
     </div>
   );
-}
+})
 
 export default App;

@@ -8,20 +8,24 @@ import { Button } from "../../common/components/button/Button";
 type CustomizationClikerType = {
     start: number
     max: number
-    addMaxValue: (max: number) => void
-    addStartValue: (start: number) => void
+    settingValues: (max: number, start: number) => void
     onClick: () => void
 }
 
-export function CustomizationCliker({ max, start, addMaxValue, addStartValue, onClick }: CustomizationClikerType) {
+export const CustomizationCliker = React.memo(({ max, start, settingValues, onClick }: CustomizationClikerType) => {
+    console.log("rerender CustomizationCliker")
     // disable кнопки set
     const disableSetButton = (start >= max)
+
+    const settingValuesHandler = (max: number, start: number) => {
+        settingValues(max, start)
+    }
     // UI
     return (
         <div className="section">
             <fieldset className="panel">
-                <Input value={max} title="max value:" onChange={(maxValue) => addMaxValue(Math.trunc(maxValue))} error={(disableSetButton || max < 0)} />
-                <Input value={start} title="start value:" onChange={(startValue) => addStartValue(Math.trunc(startValue))} error={(disableSetButton || start < 0)} />
+                <Input value={max} title="max value:" onChange={(maxValue) => settingValuesHandler(Math.trunc(maxValue), start)} error={(disableSetButton || max < 0)} />
+                <Input value={start} title="start value:" onChange={(startValue) => settingValuesHandler(max, Math.trunc(startValue))} error={(disableSetButton || start < 0)} />
             </fieldset >
             <div className="panel">
                 {disableSetButton ? <span>exceeding the max value
@@ -30,4 +34,4 @@ export function CustomizationCliker({ max, start, addMaxValue, addStartValue, on
             </div>
         </div >
     )
-}
+})

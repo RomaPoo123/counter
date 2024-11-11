@@ -5,8 +5,9 @@ import "./Button.css"
 type ButtonType = ButtonHTMLAttributes<HTMLButtonElement>
 
 
-export const Button = ({ title, onClick, disabled }: ButtonType) => {
+export const Button = React.memo(({ title, onClick, disabled }: ButtonType) => {
+    console.log("rerender btn")
     return (
         <button onClick={onClick} disabled={disabled}>{title}</button>
     )
-}
+})
